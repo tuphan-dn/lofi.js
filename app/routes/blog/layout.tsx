@@ -32,6 +32,7 @@ export default function Layout() {
       children: routes = [],
     } = {},
   } = useBlog(pathname)
+  console.log('run', pathname, route, parent)
 
   const { data: { children: siblings = [] } = {} } = useBlog(parent)
   const { data: { route: prev = '', title: left = '←' } = {} } = useBlog(

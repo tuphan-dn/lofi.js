@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { Link } from '@remix-run/react'
 import SparklesCore from '~/components/sparkles'
 
-const AnimatedLink = motion(Link)
+const AnimatedLink = motion.create(Link)
 
 function Bullet({ i = 0, children }: { i?: number; children: ReactNode }) {
   return (

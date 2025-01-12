@@ -1,6 +1,8 @@
 import { vitePlugin as remix } from '@remix-run/dev'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+import { keccak_256 } from '@noble/hashes/sha3'
+import bs58 from 'bs58'
 
 // Deep Route
 import { type Dree, scan, Type } from 'dree'
@@ -120,6 +122,13 @@ export default defineConfig({
     noExternal: ['react-use', '@egjs/react-view360'],
   },
   build: {
-    manifest: true,
+    rollupOptions: {
+      output: {
+        assetFileNames({ source }) {
+          const hash = bs58.encode(keccak_256(source))
+          return `assets/[name].${hash.slice(0, 8)}[extname]`
+        },
+      },
+    },
   },
 })

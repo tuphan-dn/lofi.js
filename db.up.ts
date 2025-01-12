@@ -1,6 +1,8 @@
 import fs, { readFileSync, writeFileSync } from 'fs'
 import { relative, resolve, parse, join } from 'path'
 import { log } from 'isomorphic-git'
+import { keccak_256 } from '@noble/hashes/sha3'
+import bs58 from 'bs58'
 import { scanAsync, type Dree } from 'dree'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { select, selectAll } from 'unist-util-select'
@@ -66,13 +68,9 @@ async function dreelize(root: string): Promise<ExtendedDree | null> {
           if (isURL(url)) return url
           const { dir } = parse(node.relativePath)
           const { name, ext } = parse(url)
-          const img = join(inDir, dir, `${name}${ext}`)
-          const manifest: Record<string, { file: string; src: string }> =
-            JSON.parse(readFileSync('build/.vite/server-manifest.json', 'utf8'))
-          const out = Object.values(manifest).find(
-            ({ src }) => !relative(src, img),
-          )
-          return out?.file || `/assets/${name}${ext}`
+          const img = readFileSync(resolve(inDir, dir, url))
+          const hash = bs58.encode(keccak_256(img)).slice(0, 8)
+          return `/assets/${name}.${hash}${ext}`
         } catch {
           return ''
         }
@@ -163,7 +161,6 @@ function flatten({ children = [], ...node }: Tree): Blog[] {
 async function migrate() {
   // Parse data
   const root = resolve(process.cwd(), inDir)
-  console.log('root', root)
   const dree = await dreelize(root)
   if (!dree) throw new Error('Empty contents')
   const tree = trielize('', dree)

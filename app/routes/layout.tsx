@@ -1,8 +1,12 @@
 import { Outlet } from '@remix-run/react'
 import UiProvider from '~/providers/ui.provider'
 import Footer from './footer'
+import { useEffect } from 'react'
 
 export default function Layout() {
+  useEffect(() => {
+    console.log('duma')
+  })
   return (
     <UiProvider>
       <main className="w-full min-h-dvh flex flex-col">
