@@ -1,0 +1,23 @@
+@import './fonts/satoshi/satoshi.css';
+@import './fonts/clash-display/clash-display.css';
+
+h1 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 2.25em;
+  font-weight: 900;
+  line-height: 1.1111111;
+}
+
+h2 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  line-height: 1.3333333;
+}
+
+h3 {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 1.25em;
+  font-weight: 500;
+  line-height: 1.6;
+}

@@ -1,0 +1,10 @@
+# node
+node_modules
+
+# build
+/.cache
+/build
+/app/db/*.json
+
+# env
+.env
