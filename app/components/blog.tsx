@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import dayjs from 'dayjs'
 import useSWR from 'swr'
 import ky from 'ky'
@@ -8,11 +7,7 @@ import { ArrowUpRight } from 'lucide-react'
 import Tags from './tags'
 
 export function useBlog(route?: string) {
-  useEffect(() => {
-    console.log('route', route)
-  }, [route])
   return useSWR(`/api${route}`, async (api: string) => {
-    console.log('swr', api)
     if (!route) return undefined
     const data = await ky.get(api).json<Blog>()
     return data

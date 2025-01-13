@@ -1,21 +1,14 @@
-import {
-  type ActionFunctionArgs,
-  type LoaderFunctionArgs,
-  json,
-} from '@remix-run/node'
+import { type ActionFunctionArgs, json } from '@remix-run/node'
 import { z } from 'zod'
 import lunr from 'lunr'
 
 import { index, published, all } from '~/db'
 
-export async function loader({ params }: LoaderFunctionArgs) {
-  const { '*': id } = z.object({ '*': z.string().default('') }).parse(params)
-  const pathname = ['/blog', id].join('/')
-  const data = all.find(({ route }) => route === pathname)
+export async function loader() {
+  const data = all.find(({ route }) => route === '/blog')
   return json(data)
 }
 
-// @Body(PostDto) { q, t, limit, offset }: z.infer<typeof PostDto>,
 export async function action({ request }: ActionFunctionArgs) {
   const { q, t, limit, offset } = z
     .object({

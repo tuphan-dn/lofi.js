@@ -7,7 +7,6 @@ import bs58 from 'bs58'
 // Deep Route
 import { type Dree, scan, Type } from 'dree'
 import { minimatch } from 'minimatch'
-// import { writeFileSync } from 'fs'
 import { join } from 'path'
 import type {
   DefineRouteFunction,
@@ -47,8 +46,6 @@ function deepRoutes(
       matches: '**/{layout,route}.*',
       extensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
     })
-
-    // writeFileSync('./dree.json', JSON.stringify(dree, null, 2))
 
     function wrap(wrapper: string, name: string, active: boolean) {
       if (!active) return wrapper
@@ -114,6 +111,7 @@ export default defineConfig({
         v3_singleFetch: true,
         v3_lazyRouteDiscovery: true,
       },
+      ignoredRouteFiles: ['**/*'],
       routes: (defineRoutes) => deepRoutes(defineRoutes, 'routes'),
     }),
     tsconfigPaths(),

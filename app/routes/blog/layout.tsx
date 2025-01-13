@@ -9,6 +9,9 @@ import Image from '~/components/md/image'
 import Toc from '~/components/md/toc'
 import Pre, { Tabs, Tab } from '~/components/md/highlight'
 import { BlogCard, useBlog } from '~/components/blog'
+import Header from './header'
+import Tags from '~/components/tags'
+import Contributors from '~/components/contributors'
 
 const components = {
   a: Anchor,
@@ -25,14 +28,13 @@ export default function Layout() {
   const {
     data: {
       route = '',
-      // date,
-      // authors = [],
-      // tags = [],
+      date,
+      authors = [],
+      tags = [],
       parent,
       children: routes = [],
     } = {},
   } = useBlog(pathname)
-  console.log('run', pathname, route, parent)
 
   const { data: { children: siblings = [] } = {} } = useBlog(parent)
   const { data: { route: prev = '', title: left = '←' } = {} } = useBlog(
@@ -47,7 +49,14 @@ export default function Layout() {
     <div className="w-full flex flex-row justify-center">
       <div className="w-full max-w-a4 p-6">
         <div className="w-full flex flex-col gap-4 items-center relative">
+          <div className="w-full mb-16 bg-base-100">
+            <Header />
+          </div>
           <article className="w-full mb-16 prose prose-h1:mt-[1.6666667em] prose-p:tracking-[-.25px] prose-table:w-full prose-table:block prose-table:overflow-auto">
+            <div className="not-prose w-full flex flex-col gap-1">
+              <Tags value={tags} />
+              <Contributors authors={authors} date={date} />
+            </div>
             <MDXProvider components={components}>
               <Outlet />
             </MDXProvider>
